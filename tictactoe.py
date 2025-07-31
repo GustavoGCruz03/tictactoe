@@ -1,7 +1,10 @@
 #
 # Tic Tac Toe Game inspired by a video I've come across on the Internet.
-# 2 player initial version.
+# 1 player vs Randomized AI
 # 
+
+
+import random
 
 def show_board(b):
     for l in b:
@@ -24,30 +27,46 @@ def win(b):
 
 board = [["1","2","3"],["4","5","6"],["7","8","9"]]
 show_board(board)
-player1 = "X"
-player2 = "O"
+print("Choose your simbol: X or O")
+player1 = input("Player 1: ").upper()
+player2 = "O" if player1 == "X" else "X"
+## Player 2 is now randomized AI
+
 
 for round in range(9):
     if round % 2 == 0:
         print(f"X's turn")
-        move = input("Play in a space (1-9): ")
+        if player2 == 'X':
+            move = random.choice([str(i) for i in range(1, 10) if str(i) in [item for sublist in board for item in sublist]])
+            print(f"AI plays in space {move}")
+        else: move = input("Play in a space (1-9): ")
         for i in range(3):
             for j in range(3):
                 if board[i][j] == move:
-                    board[i][j] = player1
+                    board[i][j] = 'X'
+        show_board(board)
         if win(board):
             print("\n\nX wins!")
             break
     else:
         print(f"O's turn")
-        move = input("Play in a space (1-9): ")
+        if player2 == 'O':
+            move = random.choice([str(i) for i in range(1, 10) if str(i) in [item for sublist in board for item in sublist]])
+            print(f"AI plays in space {move}")
+            for i in range(3):
+                for j in range(3):
+                    if board[i][j] == move:
+                        board[i][j] = player2
+        else: move = input("Play in a space (1-9): ")
         for i in range(3):
             for j in range(3):
                 if board[i][j] == move:
-                    board[i][j] = player2
+                    board[i][j] = 'O'
+        show_board(board)
         if win(board):
             print("\n\nO wins!")
             break
-    show_board(board)
-print("\n")
+        print("\n")
+
+if not win(board): print("\n\nDraw:")
 show_board(board)
